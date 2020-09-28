@@ -2,9 +2,9 @@
   "name": "tinyapp",
   "version": "1.0.0",
   "description": "URL Shortener Project",
-  "main": "index.js",
+  "main": "express_server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "nodemon": "nodemon -L"
   },
   "repository": {
     "type": "git",
@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/ebussiere/tinyapp/issues"
   },
-  "homepage": "https://github.com/ebussiere/tinyapp#readme"
+  "homepage": "https://github.com/ebussiere/tinyapp#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
