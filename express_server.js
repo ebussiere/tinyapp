@@ -9,12 +9,18 @@ const urlDatabase = {
 };
 //"Home" route
 app.get('/', function(req, res) {
-  res.render('pages/index');
+  res.render('index');
 });
 // about page
 app.get('/urls', function(req, res) {
   const templateVars = { urls: urlDatabase };
-  res.render('pages/urls_index', templateVars);
+  res.render('urls_index', templateVars);
+});
+
+app.get("/urls/:shortURL", (req, res) => {
+  const longurl = urlDatabase[req.params.shortURL];
+  const templateVars = { shortURL: req.params.shortURL, longURL: longurl };
+  res.render("urls_show", templateVars);
 });
 //Server running at port
 app.listen(PORT, () => {
