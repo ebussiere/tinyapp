@@ -21,16 +21,20 @@ const generateRandomString = function(length = 6) {
   return Math.random().toString(20).substr(2, length);
 };
 //"Home" route
-app.get('/', function(req, res) {
-  res.render('index');
-});
-// about page
 app.get('/urls', function(req, res) {
   const templateVars = {
     urls: urlDatabase,
     username: req.cookies["username"]
   };
   res.render('urls_index', templateVars);
+});
+// about page
+app.get('/register', function(req, res) {
+  const templateVars = {
+    urls: urlDatabase,
+    username: req.cookies["username"]
+  };
+  res.render('urls_register', templateVars);
 });
 
 app.get('/urls/new', function(req, res) {
