@@ -6,21 +6,22 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav mr-auto">
+        <%if (user.name) { %>
         <a class="nav-item nav-link" href="/urls">My URLs</a>
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
+        <%}%>
       </div>
-      <%if (!username) { %>
-      <form class="form-inline" style="margin:0px;" action="/login" method="POST">
-
-        <input class="form-control mr-sm-2" type="text" name="username" placeholder="username" style="width: 300px;">
-        <button type="submit" class="btn btn-outline-light my-2 my-sm-0">Login</button>
-      </form>
-      <% } else {%>
-      <form class="form-inline" style="margin:0px;" action="/logout" method="POST">
-        <div class="nav-item nav-link text-white">Logged in as: <%= username %></div>
-        <button type="submit" class="btn btn-outline-light my-2 my-sm-0">Logout</button>
-      </form>
-      <%}%>
+      <%if (!user.name) { %>
+        <!-- <form class="form-inline" style="margin:0px;" action="/login" method="POST"> -->
+        <a class="btn btn-outline-light my-0 mx-2" href="/login" role="button">Login</a>
+        <a class="btn btn-outline-light my-0 mx-2" href="/register" role="button">Register</a>
+        <!-- </form> -->
+        <% } else {%>
+        <form class="form-inline" style="margin:0px;" action="/logout" method="POST">
+          <div class="nav-item nav-link text-white">Logged in as: <%= user.email %></div>
+          <button type="submit" class="btn btn-outline-light my-2 my-sm-0">Logout</button>
+        </form>
+        <%}%>
     </div>
     </div>
   </nav>
