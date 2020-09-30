@@ -3,6 +3,9 @@ const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 
+const { users, urlDatabase } = require('./data/data');
+const { getUserByEmail, getUserById } = require('./helpers/helpers');
+
 const app = express();
 const PORT = 8080;
 
@@ -12,50 +15,9 @@ app.use(morgan('tiny'));
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
-//Data for excercise
-const urlDatabase = {
-  "b2xVn2": "http://www.lighthouselabs.ca",
-  "9sm5xK": "http://www.google.com"
-};
-
-const users = {
-  "userRandomID": {
-    id: "userRandomID",
-    email: "user@example.com",
-    password: "purple-monkey-dinosaur"
-  },
-  "user2RandomID": {
-    id: "user2RandomID",
-    email: "user2@example.com",
-    password: "dishwasher-funk"
-  }
-};
-
 const generateRandomString = function(length = 6) {
   return Math.random().toString(20).substr(2, length);
 };
-
-const getUserById = function(id) {
-  let user = {};
-  for (const key in users) {
-    if (users.hasOwnProperty(id)) {
-      user = users[id];
-    }
-    return user;
-  }
-};
-
-const getUserByEmail = function(email) {
-  for (const key in users) {
-    const res = users[key];
-    if (res["email"] === email) {
-      return res;
-    }
-  }
-  return false;
-};
-
 
 //"Home" route
 app.get('/urls', function(req, res) {
@@ -113,13 +75,11 @@ app.post("/urls", (req, res) => {
   const shortURL = generateRandomString();
   urlDatabase[shortURL] = req.body["longURL"];
   res.redirect(`/urls/${shortURL}`);
-  console.log(urlDatabase);         // Respond with 'Ok' (we will replace this)
 });
 
 app.post("/urls/:shortURL/delete", (req, res) => {
   delete urlDatabase[req.params.shortURL];
   res.redirect(`/urls`);
-  console.log(urlDatabase);         // Respond with 'Ok' (we will replace this)
 });
 
 app.post("/urls/:shortURL", (req, res) => {
@@ -132,9 +92,8 @@ app.post("/login", (req, res) => {
   let user = getUserByEmail(req.body.email);
   console.log(req.body.email + "  " + req.body.password + " " + user.password);
   if (user.password === req.body.password) {
-    console.log("Passed");
-    templateVars = { user };
-    console.log(user);
+    templateVars = { user, urls: urlDatabase, };
+    res.cookie("user_id", user.id);
     res.render(`urls_index`, templateVars);
   }
   else {
@@ -148,11 +107,10 @@ app.post("/logout", (req, res) => {
 });
 
 app.post("/register", (req, res) => {
-
   if (req.body.email === "" || req.body.password === "") {
-    res.statusCode = 400;
+    res.status(400).send('Sorry, we cannot find that!');
   } else if (getUserByEmail() == false) {
-    res.statusCode = 403;
+    res.status(403).send('Sorry, we cannot find that!');
   } else {
     const genId = generateRandomString();
     users["id"] = {
@@ -162,7 +120,6 @@ app.post("/register", (req, res) => {
     };
   }
   res.cookie("user_id", genId);
-  console.log(users);
   res.redirect(`/urls`);
 });
 

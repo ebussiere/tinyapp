@@ -6,12 +6,12 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav mr-auto">
-        <%if (user.name) { %>
+        <%if (user.email) { %>
         <a class="nav-item nav-link" href="/urls">My URLs</a>
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
         <%}%>
       </div>
-      <%if (!user.name) { %>
+      <%if (!user.email) { %>
         <!-- <form class="form-inline" style="margin:0px;" action="/login" method="POST"> -->
         <a class="btn btn-outline-light my-0 mx-2" href="/login" role="button">Login</a>
         <a class="btn btn-outline-light my-0 mx-2" href="/register" role="button">Register</a>
