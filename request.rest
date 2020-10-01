@@ -1,0 +1,25 @@
+GET http://localhost:8080/users
+
+###
+
+POST http://localhost:8080/register 
+content-type: application/json
+
+{
+"id":"testId",
+ "email":"Joe@joe.com",
+ "password":"test"
+ }
+
+###
+ 
+ POST http://localhost:8080/login
+content-type: application/json
+
+{
+ "email":"user2@example.com",
+ "password":"dishwasher-funk3"
+ }
+
+
+

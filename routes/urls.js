@@ -3,12 +3,13 @@ const router = express.Router();
 
 const { urlDatabase } = require('../data/urlDatabase');
 
-const { generateRandomString, getUserById } = require('../helpers/helpers');
+const { generateRandomString, getUserById, getUrlsByUserId } = require('../helpers/helpers');
 
 router.get('/', function(req, res) {
+  let id = req.cookies["user_id"];
   const templateVars = {
-    urls: urlDatabase,
-    user: getUserById(req.cookies["user_id"])
+    urls: getUrlsByUserId(id),
+    user: getUserById(id)
   };
   res.render('urls_index', templateVars);
 });
@@ -49,12 +50,12 @@ router.post("/", (req, res) => {
   res.redirect(`/${shortURL}`);
 });
 
-router.post("/urls/:shortURL/delete", (req, res) => {
+router.post("/:shortURL/delete", (req, res) => {
   delete urlDatabase[req.params.shortURL];
   res.redirect(`/`);
 });
 
-router.post("/urls/:shortURL", (req, res) => {
+router.post("/:shortURL", (req, res) => {
   urlDatabase[req.params.shortURL] = req.body.longURL;
   res.redirect(`/`);
 });

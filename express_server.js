@@ -1,17 +1,30 @@
+const cookieSession = require('cookie-session');
 const express = require('express');
 const bodyParser = require("body-parser");
-const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
+
+
 
 const app = express();
 const PORT = 8080;
 //Middleware
 app.use(cookieParser());
+app.use(express.json());
 app.use(morgan('tiny'));
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2'],
 
-//Using Express Router
+  // Cookie Options
+  maxAge: 24 * 60 * 60 * 1000 // 24 hours
+}));
+
+//Using Express Routervagrant 
+app.use('/u', require('./routes/u'));
+app.use('/users', require('./routes/users'));
 app.use('/urls', require('./routes/urls'));
 app.use('/register', require('./routes/register'));
 app.use('/login', require('./routes/login'));

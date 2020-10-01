@@ -6,13 +6,19 @@ const urlDatabaseV1 = {
 const urlDatabase = {
   b6UTxQ: {
     longURL: "https://www.tsn.ca",
-    userID: "aJ48lW",
+    userID: "userRandomID",
     hits: 1,
     visitors: []
   },
   i3BoGr: {
     longURL: "https://www.google.ca",
-    userID: "aJ48lW",
+    userID: "user2RandomID",
+    hits: 10,
+    visitors: []
+  },
+  i3BoGa: {
+    longURL: "https://www.formula1.com",
+    userID: "ebussiId",
     hits: 10,
     visitors: []
   }

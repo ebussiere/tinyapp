@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcrypt');
+
 
 const { urlDatabase } = require('../data/urlDatabase');
 const { users } = require('../data/users');
@@ -14,19 +16,23 @@ router.get('/', function(req, res) {
 });
 
 router.post("/", (req, res) => {
+  console.log(users);
+  const password = req.body.password;
+  const hashedPassword = bcrypt.hashSync(password, 10);
+  const genId = generateRandomString();
   if (req.body.email === "" || req.body.password === "") {
-    res.status(400).send('Sorry, we cannot find that!');
+    res.status(400);
   } else if (getUserByEmail() == false) {
-    res.status(403).send('Sorry, we cannot find that!');
+    res.status(403);
   } else {
-    const genId = generateRandomString();
     users["id"] = {
       id: genId,
       email: req.body.email,
-      password: req.body.password,
+      password: hashedPassword,
     };
   }
-  res.cookie("user_id", genId);
+  console.log(hashedPassword);
+  res.cookie("user_id", password);
   res.redirect(`/urls`);
 });
 module.exports = router;

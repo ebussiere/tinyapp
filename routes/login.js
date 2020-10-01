@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcrypt');
+
 
 const { urlDatabase } = require('../data/urlDatabase');
-const { generateRandomString, getUserByEmail, getUserById } = require('../helpers/helpers');
+const { generateRandomString, getUserByEmail, getUserById, getUrlsByUserId } = require('../helpers/helpers');
 
 router.get('/', function(req, res) {
   const templateVars = {
@@ -17,11 +19,12 @@ router.post("/", (req, res) => {
   if (!user) {
     console.log("400 - Sorry, we cannot find a user with that email.");
     res.redirect(`/`);
-  } else if (user.password != req.body.password) {
+  } else if (!bcrypt.compareSync(req.body.password, user.password)) {
+    //else if (user.password != req.body.password) {
     console.log("403 - The password you have entered does not match our records.");
     res.redirect(`/`);
   } else {
-    templateVars = { user, urls: urlDatabase, };
+    templateVars = { user, urls: getUrlsByUserId(user.id), };
     res.cookie("user_id", user.id);
     res.render(`urls_index`, templateVars);
   }
