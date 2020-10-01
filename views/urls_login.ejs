@@ -6,22 +6,26 @@
 </head>
 
 <body>
-
   <header>
     <%- include('./partials/header'); %>
   </header>
-
   <main style="margin: 1em; display: flex; align-items: center; justify-content: center;">
     <div class="container" style="width: 25%; height: 50%;">
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
       <div class="row">
         <form class="form-register d-inline-block w-100" action="/login" method="POST">
           <div class=" form-label-group">
-            <input type="text" name="email" class="form-control" placeholder="Email address" required>
             <label>Email address</label>
+            <input type="text" name="email" class="form-control" placeholder="Email address" required>
           </div>
           <div class="form-label-group">
-            <input type="text" name="password" class="form-control" placeholder="Password" required>
             <label>Password</label>
+            <input type="text" name="password" class="form-control" placeholder="Password" required>
           </div>
           <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
         </form>

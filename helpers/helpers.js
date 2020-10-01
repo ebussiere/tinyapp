@@ -1,4 +1,4 @@
-const { users, urlDatabase } = require('../data/data');
+const { users, urlDatabase } = require('../data/users');
 const getUserById = function(id) {
   let user = {};
   for (const key in users) {
@@ -19,4 +19,8 @@ const getUserByEmail = function(email) {
   return false;
 };
 
-module.exports = { getUserByEmail, getUserById };
+const generateRandomString = function(length = 6) {
+  return Math.random().toString(20).substr(2, length);
+};
+
+module.exports = { generateRandomString, getUserByEmail, getUserById };
