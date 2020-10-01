@@ -18,7 +18,12 @@ router.get('/new', function(req, res) {
     urls: urlDatabase,
     user: getUserById(req.cookies["user_id"])
   };
-  res.render('urls_new', templateVars);
+  if (req.cookies["user_id"]) {
+    res.render('urls_new', templateVars);
+  } else {
+    res.redirect(`/login`);
+  }
+
 });
 
 router.get("/show/:shortURL", (req, res) => {
