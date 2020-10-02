@@ -1,14 +1,9 @@
-const urlDatabaseV1 = {
-  "b2xVn2": "http://www.lighthouselabs.ca",
-  "9sm5xK": "http://www.google.com"
-};
-
 const urlDatabase = {
   b6UTxQ: {
     longURL: "https://www.tsn.ca",
     userID: "userRandomID",
     dateCreated: "09/29/2020",
-    totalHits: 1,
+    totalHits: 0,
     visitors: [],
     uniqueHits: 0,
   },
@@ -16,7 +11,7 @@ const urlDatabase = {
     longURL: "https://www.google.ca",
     userID: "user2RandomID",
     dateCreated: "09/05/2020",
-    totalHits: 10,
+    totalHits: 0,
     visitors: ["userRandomID", "user2RandomID"],
     uniqueHits: 2
   },
@@ -24,7 +19,7 @@ const urlDatabase = {
     longURL: "https://www.formula1.com",
     userID: "ebussiId",
     dateCreated: "10/01/2020",
-    totalHits: 99,
+    totalHits: 0,
     visitors: ["userRandomID"],
     uniqueHits: 1,
   },
@@ -32,7 +27,7 @@ const urlDatabase = {
     longURL: "https://www.iracing.com",
     userID: "ebussiId",
     dateCreated: "10/01/2020",
-    totalHits: 99,
+    totalHits: 0,
     visitors: ["userRandomID"],
     uniqueHits: 1,
   },
@@ -40,7 +35,15 @@ const urlDatabase = {
     longURL: "https://www.nbc.com",
     userID: "ebussiId",
     dateCreated: "10/01/2020",
-    totalHits: 99,
+    totalHits: 0,
+    visitors: ["userRandomID"],
+    uniqueHits: 1,
+  },
+  i377G4: {
+    longURL: "https://www.google.com",
+    userID: "ebussiId",
+    dateCreated: "10/01/2020",
+    totalHits: 0,
     visitors: ["userRandomID"],
     uniqueHits: 1,
   }

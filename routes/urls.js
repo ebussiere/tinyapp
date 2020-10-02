@@ -3,11 +3,11 @@ const router = express.Router();
 const { users } = require('../data/users');
 const { urlDatabase } = require('../data/urlDatabase');
 
-const { getDate, generateRandomString, getUserById, getUrlsByUserId } = require('../helpers/helpers');
+const { getUrlObjectbyShortURL, getDate, generateRandomString, getUserById, getUrlsByUserId } = require('../helpers/helpers');
 
 router.get('/', function(req, res) {
-  let id = req.session.user_id;
-  user = getUserById(id, users);
+  const id = req.session.user_id;
+  const user = getUserById(id, users);
   const templateVars = {
     urls: getUrlsByUserId(id, urlDatabase),
     user: user
@@ -30,7 +30,6 @@ router.get('/new', function(req, res) {
   } else {
     res.redirect(`/login`);
   }
-
 });
 
 router.get("/show/:shortURL", (req, res) => {
@@ -41,7 +40,7 @@ router.get("/show/:shortURL", (req, res) => {
 });
 
 router.get("/:shortURL", (req, res) => {
-  const longurl = urlDatabase[req.params.shortURL];
+  const longurl = urlDatabase[req.params.shortURL]["longURL"];
   const templateVars = {
     shortURL: req.params.shortURL,
     longURL: longurl,
@@ -74,15 +73,19 @@ router.post("/new/:longURL", (req, res) => {
 });
 
 router.post("/:shortURL/delete", (req, res) => {
-  delete urlDatabase[req.params.shortURL];
-  const templateVars = {
-    urls: getUrlsByUserId(req.session.user_id, urlDatabase),
-    user: getUserById(req.session.user_id, users)
-  };
-  res.render("urls_index", templateVars);
+  const user = getUserById(req.session.user_id, users);
+  const urlObj = getUrlObjectbyShortURL(req.params.shortURL, urlDatabase);
+  if (user.id === urlObj.userID) {
+    delete urlDatabase[req.params.shortURL];
+    const templateVars = {
+      urls: getUrlsByUserId(req.session.user_id, urlDatabase),
+      user: getUserById(req.session.user_id, users)
+    };
+    res.render("urls_index", templateVars);
+  } else {
+    res.status(404);
+  }
 });
-
-
 
 router.post("/:shortURL", (req, res) => {
   urlDatabase[req.params.shortURL]["longURL"] = req.body.longURL;

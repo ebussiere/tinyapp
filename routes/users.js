@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { urlDatabase } = require('../data/urlDatabase');
 const { users } = require('../data/users');
-const { getUserByEmail, getUserById, generateRandomString } = require('../helpers/helpers');
 
 router.get('/', function(req, res) {
   res.json(users);

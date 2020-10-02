@@ -22,7 +22,6 @@
           <th scope="col">Long URL</th>
           <th scope="col">Created</th>
           <th scope="col">Total Hits</th>
-          <th scope="col">Unique Hits</th>
           <th scope="col">Delete</th>
           <th scope="col">Update</th>
         </tr>
@@ -30,13 +29,11 @@
       <tbody>
         <% if(urls) { %>
         <% for(const url in urls) { %>
-
         <tr>
           <td><%= url %></td>
           <td><%= urls[url]["longURL"] %></td>
           <td><%= urls[url]["dateCreated"] %></td>
           <td><%= urls[url]["totalHits"] %></td>
-          <td><%= urls[url]["uniqueHits"] %></td>
 
           <td>
             <form method="POST" action="/urls/<%= url %>/delete">

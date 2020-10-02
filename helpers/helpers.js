@@ -1,6 +1,6 @@
 const moment = require('moment');
 const { urlDatabase } = require('../data/urlDatabase');
-const { users } = require('../data/users');
+
 const getUserById = function(id, users) {
   for (const key in users) {
     const res = users[key];
@@ -32,6 +32,22 @@ const getlongURLbyShortURL = function(su) {
   }
 };
 
+const getUrlObjectbyShortURL = function(su, urlDatabase) {
+  for (const key in urlDatabase) {
+    const res = urlDatabase[key];
+    if (su === key) {
+      return res;
+    }
+  }
+};
+
+const urlCheck = function(raw) {
+  if (raw.startsWith("https://") || raw.startsWith("http://")) {
+    return true;
+  }
+  return false;
+};
+
 const getUrlsByUserId = function(id, urls) {
   let result = {};
   for (const key in urls) {
@@ -53,4 +69,13 @@ const generateRandomString = function(length = 6) {
   return Math.random().toString(20).substr(2, length);
 };
 
-module.exports = { getDate, generateRandomString, getUserByEmail, getUserById, getlongURLbyShortURL, getUrlsByUserId };
+module.exports = {
+  urlCheck,
+  getUrlObjectbyShortURL,
+  getDate,
+  generateRandomString,
+  getUserByEmail,
+  getUserById,
+  getlongURLbyShortURL,
+  getUrlsByUserId
+};

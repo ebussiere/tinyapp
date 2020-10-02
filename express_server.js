@@ -2,12 +2,10 @@ const cookieSession = require('cookie-session');
 const express = require('express');
 const bodyParser = require("body-parser");
 const morgan = require('morgan');
-//const cookieParser = require('cookie-parser');
 
 const app = express();
 const PORT = 8080;
-//Middleware
-//app.use(cookieParser());
+
 app.use(express.json());
 app.use(morgan('tiny'));
 app.set('view engine', 'ejs');
@@ -15,12 +13,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieSession({
   name: 'session',
   keys: ['key1', 'key2'],
-
   // Cookie Options
   maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }));
 
-//Using Express Routervagrant 
+//Using Express Routervagrant
 app.use('/', require('./routes/home'));
 app.use('/u', require('./routes/u'));
 app.use('/users', require('./routes/users'));
@@ -32,7 +29,7 @@ app.use('/logout', require('./routes/logout'));
 
 app.listen(PORT, () => {
   console.log(`Listening on Port: ${PORT}.`);
-});;
+});
 
 
 

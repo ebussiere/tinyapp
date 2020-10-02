@@ -19,5 +19,25 @@ POST http://localhost:8080/login
 "password":"test"
 }
 
+###
+POST http://localhost:8080/urls/i3BoGa/delete
+
+###
+GET http://localhost:8080/u/i3BoGa
+
+###
+
+GET http://localhost:8080/u/i3BoG8
+
+###
+
+GET http://localhost:8080/u/i3BoG4
+
+###
+
+GET http://localhost:8080/u/i377G4
+
+
+
 
 
