@@ -1,17 +1,18 @@
+const moment = require('moment');
 const { urlDatabase } = require('../data/urlDatabase');
 const { users } = require('../data/users');
-const getUserById = function(id) {
-  let user = {};
+const getUserById = function(id, users) {
   for (const key in users) {
-    if (users.hasOwnProperty(id)) {
-      user = users[id];
+    const res = users[key];
+    if (res["id"] === id) {
+      return res;
     }
-    return user;
   }
+  return false;
 };
 
 
-const getUserByEmail = function(email) {
+const getUserByEmail = function(email, users) {
   for (const key in users) {
     const res = users[key];
     if (res["email"] === email) {
@@ -31,19 +32,25 @@ const getlongURLbyShortURL = function(su) {
   }
 };
 
-const getUrlsByUserId = function(id) {
+const getUrlsByUserId = function(id, urls) {
   let result = {};
-  for (const key in urlDatabase) {
-    const res = urlDatabase[key];
-    if (id === res.userID) {
+  for (const key in urls) {
+    const res = urls[key];
+    if (id === res["userID"]) {
       result[key] = res;
     }
   }
   return result;
 };
 
+const getDate = function() {
+  let mo = moment(Date.now());
+  let n = mo.format('L');
+  return n;
+};
+
 const generateRandomString = function(length = 6) {
   return Math.random().toString(20).substr(2, length);
 };
 
-module.exports = { generateRandomString, getUserByEmail, getUserById, getlongURLbyShortURL, getUrlsByUserId };
+module.exports = { getDate, generateRandomString, getUserByEmail, getUserById, getlongURLbyShortURL, getUrlsByUserId };

@@ -4,7 +4,8 @@
   "description": "URL Shortener Project",
   "main": "express_server.js",
   "scripts": {
-    "start": "nodemon -L"
+    "start": "nodemon -L",
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -24,7 +25,12 @@
     "cookie-session": "^1.4.0",
     "express": "^4.17.1",
     "method-override": "^3.0.0",
+    "moment": "^2.29.0",
     "morgan": "^1.10.0",
     "node-ejs": "^1.2.3"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^8.1.3"
   }
 }

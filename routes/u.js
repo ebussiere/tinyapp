@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { urlDatabase } = require('../data/urlDatabase');
+//const { urlDatabase } = require('../data/urlDatabase');
 const { getlongURLbyShortURL } = require('../helpers/helpers');
 
 router.get('/:id', function(req, res) {

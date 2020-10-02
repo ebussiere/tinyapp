@@ -21,9 +21,9 @@ router.post("/", (req, res) => {
   const hashedPassword = bcrypt.hashSync(password, 10);
   const genId = generateRandomString();
   if (req.body.email === "" || req.body.password === "") {
-    res.status(400);
+    //res.status(400);
   } else if (getUserByEmail() == false) {
-    res.status(403);
+    //res.status(403);
   } else {
     users["id"] = {
       id: genId,
@@ -32,7 +32,8 @@ router.post("/", (req, res) => {
     };
   }
   console.log(hashedPassword);
-  res.cookie("user_id", password);
+  //req.session.user_id = genId;
+  //res.cookie("user_id", password);
   res.redirect(`/urls`);
 });
 module.exports = router;

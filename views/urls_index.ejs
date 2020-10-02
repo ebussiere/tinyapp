@@ -12,23 +12,32 @@
   </header>
 
   <main style="margin: 1em;">
+
+
     <h3>My URLs</h3>
     <table class="table">
       <thead>
         <tr>
           <th scope="col">Short URL</th>
           <th scope="col">Long URL</th>
-          <th scope="col">Hits</th>
+          <th scope="col">Created</th>
+          <th scope="col">Total Hits</th>
+          <th scope="col">Unique Hits</th>
           <th scope="col">Delete</th>
           <th scope="col">Update</th>
         </tr>
       </thead>
       <tbody>
-        <% for(let url in urls) { %>
+        <% if(urls) { %>
+        <% for(const url in urls) { %>
+
         <tr>
           <td><%= url %></td>
           <td><%= urls[url]["longURL"] %></td>
-          <td><%= urls[url]["hits"] %></td>
+          <td><%= urls[url]["dateCreated"] %></td>
+          <td><%= urls[url]["totalHits"] %></td>
+          <td><%= urls[url]["uniqueHits"] %></td>
+
           <td>
             <form method="POST" action="/urls/<%= url %>/delete">
               <button type="submit" class="btn btn-outline-danger">Delete</button>
@@ -41,6 +50,7 @@
           </td>
 
         </tr>
+        <% } %>
         <% } %>
       </tbody>
     </table>
