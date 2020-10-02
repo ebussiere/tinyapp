@@ -17,7 +17,7 @@ app.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }));
 
-//Using Express Routervagrant
+//Using express router
 app.use('/', require('./routes/home'));
 app.use('/u', require('./routes/u'));
 app.use('/users', require('./routes/users'));

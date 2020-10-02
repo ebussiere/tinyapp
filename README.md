@@ -2,8 +2,6 @@
 ## What does it do?
 TinyApp is a full stack web application built with Node and Express that allows users to shorten long URLs (à la bit.ly).
 
-
-
 ## Login/Register
 
 * Login with valid credentials or register as a new user 
@@ -63,9 +61,10 @@ To run using nodemon
 App runs at: http://localhost:8080/urls
 Shortened URLS can be used by visiting "http://localhost:8080/u/[shorturl]" in another browser tab/window.
 
-
 ## TODO
 
+1. Use .env file. 
 1. Combine auth routes 
 2. Provide code comments for future developers/maintenance. 
 3. Publish to Azure.
+

@@ -1,6 +1,7 @@
 const moment = require('moment');
 const { urlDatabase } = require('../data/urlDatabase');
 
+
 const getUserById = function(id, users) {
   for (const key in users) {
     const res = users[key];
@@ -10,7 +11,6 @@ const getUserById = function(id, users) {
   }
   return false;
 };
-
 
 const getUserByEmail = function(email, users) {
   for (const key in users) {
@@ -41,6 +41,7 @@ const getUrlObjectbyShortURL = function(su, urlDatabase) {
   }
 };
 
+// To be used to validate and verify urls
 const urlCheck = function(raw) {
   if (raw.startsWith("https://") || raw.startsWith("http://")) {
     return true;
@@ -59,12 +60,14 @@ const getUrlsByUserId = function(id, urls) {
   return result;
 };
 
+// used to set create date on tiny urls
 const getDate = function() {
   let mo = moment(Date.now());
   let n = mo.format('L');
   return n;
 };
 
+//used to create tiny urls
 const generateRandomString = function(length = 6) {
   return Math.random().toString(20).substr(2, length);
 };
