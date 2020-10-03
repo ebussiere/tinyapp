@@ -46,8 +46,8 @@ router.get("/:shortURL", (req, res) => {
     longURL: longurl,
     user: getUserById(req.session.user_id, users)
   };
-  res.redirect("/urls");
-  //res.render("urls_show", templateVars);
+  //res.redirect("/urls");
+  res.render("urls_show", templateVars);
 });
 
 router.post("/new/:longURL", (req, res) => {
