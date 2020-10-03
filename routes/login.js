@@ -21,9 +21,8 @@ router.post("/", (req, res) => {
   } else if (!bcrypt.compareSync(password, user.password)) {
     res.redirect(`/`);
   } else {
-    const templateVars = { user, urls: getUrlsByUserId(user.id, urlDatabase) };
     req.session.user_id = user.id;
-    res.render(`urls_index`, templateVars);
+    res.redirect("/urls");
   }
 });
 module.exports = router;

@@ -46,7 +46,8 @@ router.get("/:shortURL", (req, res) => {
     longURL: longurl,
     user: getUserById(req.session.user_id, users)
   };
-  res.render("urls_show", templateVars);
+  res.redirect("/urls");
+  //res.render("urls_show", templateVars);
 });
 
 router.post("/new/:longURL", (req, res) => {
@@ -61,30 +62,27 @@ router.post("/new/:longURL", (req, res) => {
     totalHits: 0,
     visitors: [],
     uniqueHits: 0,
-
   };
   const urls = getUrlsByUserId(req.session.user_id, urlDatabase);
   const templateVars = {
     urls: urls,
     user
   };
-  res.render("urls_index", templateVars);
-  //res.redirect(`/`);
+  //res.render("urls_index", templateVars);
+  res.redirect(`/urls`);
 });
 
 router.post("/:shortURL/delete", (req, res) => {
   const user = getUserById(req.session.user_id, users);
   const urlObj = getUrlObjectbyShortURL(req.params.shortURL, urlDatabase);
-  if (user.id === urlObj.userID) {
+  if (urlObj && (user.id === urlObj.userID)) {
     delete urlDatabase[req.params.shortURL];
-    const templateVars = {
-      urls: getUrlsByUserId(req.session.user_id, urlDatabase),
-      user: getUserById(req.session.user_id, users)
-    };
-    res.render("urls_index", templateVars);
-  } else {
-    res.status(404);
   }
+  const templateVars = {
+    urls: getUrlsByUserId(req.session.user_id, urlDatabase),
+    user: getUserById(req.session.user_id, users)
+  };
+  res.redirect(`/urls`);
 });
 
 router.post("/:shortURL", (req, res) => {
@@ -93,8 +91,7 @@ router.post("/:shortURL", (req, res) => {
     urls: getUrlsByUserId(req.session.user_id, urlDatabase),
     user: getUserById(req.session.user_id, users)
   };
-  res.render("urls_index", templateVars);
-  //res.redirect(`/`);
+  res.render("/urls");
 });
 
 module.exports = router;

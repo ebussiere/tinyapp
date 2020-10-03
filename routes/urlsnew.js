@@ -19,13 +19,8 @@ router.post("/", (req, res) => {
       visitors: [],
       uniqueHits: 0,
     };
-    const templateVars = {
-      urls: getUrlsByUserId(req.session.user_id, urlDatabase),
-      user: getUserById(req.session.user_id, users)
-    };
-    res.render("urls_index", templateVars);
   }
-  res.redirect("/urls/new");
+  res.redirect("/urls");
 });
 
 module.exports = router;
