@@ -8,19 +8,23 @@ const { urlCheck, getDate, generateRandomString, getUserById, getUrlsByUserId } 
 router.post("/", (req, res) => {
   const shortURL = generateRandomString();
   const { longURL } = req.body;
-
-  if (urlCheck(longURL)) {
-    const date = getDate();
-    urlDatabase[shortURL] = {
-      longURL: longURL,
-      userID: req.session.user_id,
-      dateCreated: date,
-      totalHits: 0,
-      visitors: [],
-      uniqueHits: 0,
-    };
+  const user = getUserById(req.session.user_id, users);
+  if (user) {
+    if (urlCheck(longURL)) {
+      const date = getDate();
+      urlDatabase[shortURL] = {
+        longURL: longURL,
+        userID: req.session.user_id,
+        dateCreated: date,
+        totalHits: 0,
+        visitors: [],
+        uniqueHits: 0,
+      };
+    }
+    res.redirect("/urls");
+  } else {
+    res.send("403 - Forbidden");
   }
-  res.redirect("/urls");
 });
 
 module.exports = router;

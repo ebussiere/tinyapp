@@ -3,7 +3,12 @@ const router = express.Router();
 const { users } = require('../data/users');
 const { urlDatabase } = require('../data/urlDatabase');
 
-const { getUrlObjectbyShortURL, getDate, generateRandomString, getUserById, getUrlsByUserId } = require('../helpers/helpers');
+const {
+  getUrlObjectbyShortURL,
+  getDate,
+  generateRandomString,
+  getUserById,
+  getUrlsByUserId } = require('../helpers/helpers');
 
 router.get('/', function(req, res) {
   const id = req.session.user_id;
@@ -16,6 +21,7 @@ router.get('/', function(req, res) {
     res.render('urls_index', templateVars);
   } else {
     res.redirect('/login');
+    //res.send('You don\'t have access');
   }
 });
 
@@ -32,22 +38,28 @@ router.get('/new', function(req, res) {
   }
 });
 
-router.get("/show/:shortURL", (req, res) => {
-  const templateVars = {
-    user: getUserById(req.session.user_id, users)
-  };
-  res.redirect(`/show/${req.params.shortURL}`, templateVars);
-});
-
 router.get("/:shortURL", (req, res) => {
-  const longurl = urlDatabase[req.params.shortURL]["longURL"];
-  const templateVars = {
-    shortURL: req.params.shortURL,
-    longURL: longurl,
-    user: getUserById(req.session.user_id, users)
-  };
-  //res.redirect("/urls");
-  res.render("urls_show", templateVars);
+  const shortURL = req.params.shortURL;
+  const urlObj = getUrlObjectbyShortURL(shortURL, urlDatabase);
+  const user = getUserById(req.session.user_id, users);
+  if (user) {
+    if (!urlObj) {
+      res.send("Error 404 - Not Found");
+    } else if (urlObj && (urlObj.userID === user.id)) {
+      console.log(urlObj);
+      console.log(user);
+      const templateVars = {
+        shortURL: shortURL,
+        longURL: urlObj.longURL,
+        user: user
+      };
+      res.render("urls_show", templateVars);
+    } else {
+      res.send("403 - Forbidden");
+    }
+  } else {
+    res.redirect(`/`);
+  }
 });
 
 router.post("/new/:longURL", (req, res) => {
@@ -55,44 +67,59 @@ router.post("/new/:longURL", (req, res) => {
   const longURL = req.params.longURL;
   const user = getUserById(req.session.user_id, users);
   const date = getDate();
-  urlDatabase[shortURL] = {
-    longURL: longURL,
-    userID: req.session.user_id,
-    dateCreated: date,
-    totalHits: 0,
-    visitors: [],
-    uniqueHits: 0,
-  };
-  const urls = getUrlsByUserId(req.session.user_id, urlDatabase);
-  const templateVars = {
-    urls: urls,
-    user
-  };
-  //res.render("urls_index", templateVars);
-  res.redirect(`/urls`);
+  if (user) {
+    urlDatabase[shortURL] = {
+      longURL: longURL,
+      userID: req.session.user_id,
+      dateCreated: date,
+      totalHits: 0,
+      visitors: [],
+      uniqueHits: 0,
+    };
+    const urls = getUrlsByUserId(req.session.user_id, urlDatabase);
+    const templateVars = {
+      urls: urls,
+      user
+    };
+    //res.render("urls_index", templateVars);
+    res.redirect(`/urls`);
+  } else {
+    res.send('403 - Forbidden');
+  }
 });
 
 router.post("/:shortURL/delete", (req, res) => {
   const user = getUserById(req.session.user_id, users);
   const urlObj = getUrlObjectbyShortURL(req.params.shortURL, urlDatabase);
-  if (urlObj && (user.id === urlObj.userID)) {
+  if (!user) {
+    res.send("403 - Forbidden");
+  } else if (urlObj && (user.id === urlObj.userID)) {
     delete urlDatabase[req.params.shortURL];
+    res.redirect(`/urls`);
+  } else {
+    res.redirect(`/urls`);
   }
-  const templateVars = {
-    urls: getUrlsByUserId(req.session.user_id, urlDatabase),
-    user: getUserById(req.session.user_id, users)
-  };
-  res.redirect(`/urls`);
 });
 
 router.post("/:shortURL", (req, res) => {
-  urlDatabase[req.params.shortURL]["longURL"] = req.body.longURL;
-  const templateVars = {
-    urls: getUrlsByUserId(req.session.user_id, urlDatabase),
-    user: getUserById(req.session.user_id, users)
-  };
-  res.render("/urls");
+  const user = getUserById(req.session.user_id, users);
+  const shortURL = req.params.shortURL;
+  const longURL = req.body.longURL;
+  const urlObj = getUrlObjectbyShortURL(shortURL, urlDatabase);
+  if (user) {
+    if (longURL) {
+      if (user.id === urlObj.userID) {
+        urlDatabase[req.params.shortURL]["longURL"] = longURL;
+        res.redirect("/urls");
+      }
+    }
+    else {
+      res.redirect("/urls");
+    }
+  }
+  else {
+    res.send("403 - Forbidden");
+  }
 });
-
 module.exports = router;
 

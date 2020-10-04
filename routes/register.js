@@ -3,7 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 
 const { users } = require('../data/users');
-const { generateRandomString } = require('../helpers/helpers');
+const { generateRandomString, getUserByEmail } = require('../helpers/helpers');
 
 router.get('/', function(req, res) {
   const templateVars = {
@@ -16,8 +16,11 @@ router.post("/", (req, res) => {
   const password = req.body.password;
   const hashedPassword = bcrypt.hashSync(password, 10);
   const genId = generateRandomString();
-  if (req.body.email === "" || req.body.password === "") {
-    //res.status(400);
+  const exUser = getUserByEmail(req.body.email, users);
+  if (exUser) {
+    res.send('A user with that email aready exists');
+  } else if (req.body.email === "" || req.body.password === "") {
+    //Handled by bootstrap
   } else {
     users["id"] = {
       id: genId,
@@ -25,9 +28,6 @@ router.post("/", (req, res) => {
       password: hashedPassword,
     };
   }
-  console.log(hashedPassword);
-  console.log(users);
   res.redirect(`/urls`);
-
 });
 module.exports = router;
